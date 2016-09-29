@@ -14,7 +14,7 @@
 /* command buttons */
 #define IN_JUMP (1 << 1)
 
-/* forward declarations */
+/* game structures */
 struct CUserCmd {
 	virtual ~CUserCmd() {};
 	int command_number;
@@ -57,9 +57,17 @@ template <typename interface> interface* GetInterface(const char* filename, cons
 	return reinterpret_cast<interface*>(factory(version, nullptr));
 }
 
+void** GetVirtualTable(void* baseclass) {
+	return *reinterpret_cast<void***>(baseclass);
+};
+
 template <typename Fn> inline Fn GetVirtualFunction(void* baseclass, size_t index) {
-	return (Fn)((uintptr_t**)*(uintptr_t***)baseclass)[index];
+	return reinterpret_cast<Fn>(GetVirtualTable(baseclass)[index]);
 }
+
+uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int size) {
+	return instruction_ptr + *reinterpret_cast<uint32_t*>(instruction_ptr + offset) + size;
+};
 
 /* generic game classes */
 class C_BaseEntity {

@@ -77,11 +77,8 @@ int __attribute__((constructor)) bhop_init() {
 	if (!init_address)
 		return 1;
 
-	/* get the offset address */
-	uint32_t offset = *reinterpret_cast<uint32_t*>(init_address + 3);
-
-	/* get the absolute address */
-	clientmode = reinterpret_cast<IClientMode*>(init_address + offset + 7);
+	/* get the global IClientMode pointer */
+	clientmode = reinterpret_cast<IClientMode*>(GetAbsoluteAddress(init_address, 3, 7));
 
 	/* hook IClientMode::CreateMove */
 	clientmode_hook = std::unique_ptr<VMTHook>(new VMTHook(clientmode));
