@@ -1,6 +1,6 @@
 /*
 
-	linux-csgo-bhop -- example CreateMove hook for 64-bit CS:GO on Linux
+	csgo-bhop-linux -- example CreateMove hook for 64-bit CS:GO on Linux
 	Read more at https://aixxe.net/2016/09/createmove-linux-csgo/
 
 	Copyright (C) 2016, aixxe. (www.aixxe.net)
@@ -16,7 +16,7 @@
 	GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with linux-csgo-bhop. If not, see <http://www.gnu.org/licenses/>.
+	along with csgo-bhop-linux. If not, see <http://www.gnu.org/licenses/>.
 
 */
 

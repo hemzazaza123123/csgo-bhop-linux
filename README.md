@@ -1,6 +1,6 @@
-![linux-csgo-bhop](https://cdn.aixxe.net/projects/linux-csgo-bhop/logo-transparent.png)
+![csgo-bhop-linux](https://cdn.aixxe.net/projects/csgo-bhop-linux/logo-transparent.png)
 
-# linux-csgo-bhop
+# csgo-bhop-linux
 
 Example auto-bunnyhop via `IClientMode::CreateMove` virtual method hooking. Uses signature scanning to obtain the `IClientMode` pointer. Methodology is detailed in the [blog post](https://aixxe.net/2016/09/createmove-linux-csgo/) here.
 
