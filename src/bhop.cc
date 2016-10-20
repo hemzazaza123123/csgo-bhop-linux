@@ -81,7 +81,7 @@ int __attribute__((constructor)) bhop_init() {
 	clientmode = reinterpret_cast<IClientMode*>(GetAbsoluteAddress(init_address, 3, 7));
 
 	/* hook IClientMode::CreateMove */
-	clientmode_hook = std::unique_ptr<VMTHook>(new VMTHook(clientmode));
+	clientmode_hook = std::make_unique<VMTHook>(clientmode);
 	clientmode_hook->HookFunction(reinterpret_cast<void*>(hkCreateMove), 25);
 
 	return 0;
