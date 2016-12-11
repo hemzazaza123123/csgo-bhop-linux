@@ -2,8 +2,9 @@
 #include <dlfcn.h>
 
 /* interface versions */
+#define CLIENT_DLL_INTERFACE_VERSION "VClient018"
 #define VENGINE_CLIENT_INTERFACE_VERSION "VEngineClient014"
-#define VCLIENTENTITYLIST_INTERFACE_VERSION	"VClientEntityList003"
+#define VCLIENTENTITYLIST_INTERFACE_VERSION "VClientEntityList003"
 
 /* network variable offsets */
 #define m_fFlags 0x138
@@ -39,6 +40,7 @@ struct CUserCmd {
 /* function prototypes */
 typedef void* (*CreateInterfaceFn) (const char*, int*);
 typedef bool (*CreateMoveFn) (void*, float, CUserCmd*);
+typedef void* (*GetClientModeFn) ();
 
 /* helper functions */
 template <typename interface> interface* GetInterface(const char* filename, const char* version) {
@@ -65,7 +67,7 @@ template <typename Fn> inline Fn GetVirtualFunction(void* baseclass, size_t inde
 	return reinterpret_cast<Fn>(GetVirtualTable(baseclass)[index]);
 }
 
-uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int size) {
+inline const uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int size) {
 	return instruction_ptr + *reinterpret_cast<uint32_t*>(instruction_ptr + offset) + size;
 };
 
@@ -73,11 +75,13 @@ uintptr_t GetAbsoluteAddress(uintptr_t instruction_ptr, int offset, int size) {
 class C_BaseEntity {
 	public:
 		int GetFlags() {
-			return *(int*)((uintptr_t)this + m_fFlags);
+			return *reinterpret_cast<int*>(uintptr_t(this) + m_fFlags);
 		}
 };
 
 /* game interface classes */
+class IBaseClientDLL {};
+
 class IVEngineClient {
 	public:
 		int GetLocalPlayer() {
