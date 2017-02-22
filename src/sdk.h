@@ -59,11 +59,11 @@ template <typename interface> interface* GetInterface(const char* filename, cons
 	return reinterpret_cast<interface*>(factory(version, nullptr));
 }
 
-void** GetVirtualTable(void* baseclass) {
+inline void**& GetVirtualTable(void* baseclass) {
 	return *reinterpret_cast<void***>(baseclass);
-};
+}
 
-template <typename Fn> inline Fn GetVirtualFunction(void* baseclass, size_t index) {
+template <typename Fn = void*> inline Fn GetVirtualFunction(void* baseclass, size_t index) {
 	return reinterpret_cast<Fn>(GetVirtualTable(baseclass)[index]);
 }
 
